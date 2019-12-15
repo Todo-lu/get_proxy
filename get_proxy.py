@@ -17,7 +17,7 @@ def getProxyList(targeturl="http://www.xicidaili.com/nn/"):
 
     for page in range(1, 10):
         url = targeturl + str(page)
-        req = request.get(url, headers=requestHeader)
+        req = requests.get(url, headers=requestHeader)
         htmlDoc = req.text
 
         soup = BeautifulSoup(htmlDoc, 'html.parser')
@@ -28,8 +28,8 @@ def getProxyList(targeturl="http://www.xicidaili.com/nn/"):
                 nation = 'Null'
                 locate = 'Null'
             else:
-                nation = td[0].find('img')['alt'].strip()
-                locate = td[3].text.strip()
+                nation = tds[0].find('img')['alt'].strip()
+                locate = tds[3].text.strip()
 
             ip = tds[1].text.strip()
             port = tds[2].text.strip()
@@ -38,12 +38,11 @@ def getProxyList(targeturl="http://www.xicidaili.com/nn/"):
             speed = tds[6].find('div')['title'].strip()
             time = tds[8].text.strip()
 
-            proxyFile.write('%s|%s|%s|%s%s|%s%s|%s%s|%s\n' % (nation, ip, port, locate, anony,protocol, speed, time))
+            proxyFile.write('%s|%s|%s|%s|%s|%s|%s|%s\n' % (nation, ip, port, locate, anony, protocol, speed, time))
             print('%s=%s:%s' % (protocol, ip, port))
             countNum += 1
-    
-     proxyFile.close()
-     return countNum
+    proxyFile.close()
+    return countNum
 
 def verifyProxyList():
     '''
@@ -100,4 +99,3 @@ if __name__ == "__main__":
     inFile.close()
     outFile.close()
     print("All End!")
-    
